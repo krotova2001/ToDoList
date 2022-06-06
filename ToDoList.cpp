@@ -2,6 +2,7 @@
 int main()
 {
     View A;
-    A.Show_intro();
+    A.Show_menu();
 
+   
 }
