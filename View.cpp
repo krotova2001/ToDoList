@@ -16,6 +16,7 @@ void View::Show_menu() //главное меню
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Редактирование " << right << " 2\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Поиск " << right << " 3\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Справка " << right << " 4\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "О программе " << right << " 5\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Выход " << right << " 0\n\n";
 }
 

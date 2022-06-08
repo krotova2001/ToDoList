@@ -1,8 +1,10 @@
 ﻿#include "View.h"
+#include "Controller.h"
 int main()
 {
-    View A;
-    A.Show_menu();
-
+    setlocale(LC_ALL, "Russian");
+    Controller A;
+    A.Menu();
+    system("pause");
    
 }

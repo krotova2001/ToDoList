@@ -1,22 +1,20 @@
-//класс модели - дела
+//класс модели - отдельного дела
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #pragma warning(disable : 4996)
 using namespace std;
-#pragma warning(disable : 4996)
-class Model
+
+struct Model // сделаем экземпляр дела в структуре - открытым, так как он будет инкапсулирован с массиве - внешнем классе
 {
-    // здесь мы создаем встроенную структуру С которая содержит текущее время
-    time_t now = time(0);
-    tm* time_now = localtime(&now);
+    
 
-    char weekday[7][12] = { "Суббота","Воскресенье","Понедельник","Вторник", "Среда","Четверг","Пятница" };
-    // в глобальной области видимости нам понадобяться длни недели. Массив с названиями
-
-    char* zellersAlgorithm(int day, int month, int year) //это готовая фунция определения дня недели
+    static char* zellersAlgorithm(int day, int month, int year) //это готовая фунция определения дня недели
     {
+        char weekday[7][12] = { "Суббота","Воскресенье","Понедельник","Вторник", "Среда","Четверг","Пятница" };
+        //Массив с названиями дней недели
+
         int mon;
         if (month > 2)
             mon = month; //for march to december month code is same as month
@@ -46,16 +44,27 @@ class Model
         int minutes = 00;
     };
 
-    struct deal // Основная - структура одного экземпляра дела 
+    int id; //уникальный порядковый номер
+    enum priority {extrim=1,imortant, usual,not_important,pofig}pri; // важность - пять уровней
+    string name; // имя
+    string information; // описание 
+    struct Date date; // дата исполнения 
+    struct Time time; // время исполнения
+    char week[12]; // день недели
+    long int time_id;//метка времени для быстрого поиска по времени
+
+    void Show() // здесь и определим единственную функцию - показать дело
     {
-        int id; //уникальный порядковый номер
-        int priority; // важность
-        char name[50]; // имя
-        char information[250]; // описание 
-        struct Date date; // дата исполнения 
-        struct Time time; // время исполнения
-        char week[12]; // день недели
-        long int time_id;//метка времени для быстрого поиска по времени
-    };
+        cout << "\n";
+        cout << "Порядковый номер - " << id << "\n";
+        cout << "Название - " << name << "\n";
+        cout << "Приоритет - " << pri << "\n";
+        cout << "Описание - " << information << "\n";
+        cout << "Срок - " << date.day << "/" << date.month << "/" << date.year << "\n";
+        cout << "День недели - " << week << "\n";
+        cout << "Время - " << time.hour << ":" << time.hour << "\n";
+        cout << "-------------------------------------\n";
+    }
+
 };
 
