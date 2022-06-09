@@ -8,10 +8,6 @@ void View::Show_menu() //главное меню
 {
 	system("cls"); // очистка экрана
 	cout <<"\x1B[31m***********************СПИСОК ДЕЛ***********************\033[0m\t\t\n\n";
-	//cout << "\t\t1 - Просмотр\n";
-	//cout << "\t\t2 - Редактирование\n";
-	//cout << "\t\t3 - Поиск\n";
-	//cout << "\t\t4 - Справка\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Просмотр " << right << " 1\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Редактирование " << right << " 2\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Поиск " << right << " 3\n";
@@ -35,17 +31,26 @@ void View::Show_menu_2()
 {
 	system("cls");
 	cout << "\x1B[31m***********************РЕДАКТИРОВАНИЕ***********************\033[0m\t\t\n\n";
+	cout << "Введите ID дела либо название, либо описание\n";
+	cout << "Либо введите 0 для выхода в меню\n";
 }
 
 void View::Show_menu_3()
 {
 	system("cls");
 	cout << "\x1B[31m***********************ПОИСК***********************\033[0m\t\t\n\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "По названию " << right << " 1\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "По описанию " << right << " 2\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "По дате " << right << " 3\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "По ID " << right << " 4\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "Назад " << right << " 0\n\n";
+
 }
 
 void View::Show_today()
 {
 	system("cls");
+
 	
 }
 
