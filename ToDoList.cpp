@@ -1,5 +1,6 @@
 ﻿#include "View.h"
 #include "Controller.h"
+#include "Model_base.h"
 int main()
 {
     setlocale(LC_ALL, "Russian");
