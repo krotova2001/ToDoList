@@ -39,10 +39,8 @@ void View::Show_menu_3()
 {
 	system("cls");
 	cout << "\x1B[31m***********************ПОИСК***********************\033[0m\t\t\n\n";
-	cout << "\t\t" << setw(25) << setfill('-') << left << "По названию " << right << " 1\n";
-	cout << "\t\t" << setw(25) << setfill('-') << left << "По описанию " << right << " 2\n";
-	cout << "\t\t" << setw(25) << setfill('-') << left << "По дате " << right << " 3\n";
-	cout << "\t\t" << setw(25) << setfill('-') << left << "По ID " << right << " 4\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "По названию/описанию/ID " << right << " 1\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "По дате " << right << " 2\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Назад " << right << " 0\n\n";
 
 }

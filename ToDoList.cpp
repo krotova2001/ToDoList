@@ -6,7 +6,8 @@ int main()
     Controller A;
     Model_base B;
     B.Add();
-    //B.Add();
-    //B.Show_all();
+    B.Add();
+    B.Show_all();
+    B.Write_deals();
    
 }

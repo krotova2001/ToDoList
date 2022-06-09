@@ -39,6 +39,7 @@ public:
             case 2:
                 View::Show_menu_2(); // Редактирование
                 cin >> search;
+                Model_base::Edit(search);
                 break;
             case 3:
                 View::Show_menu_3(); // Поиск дела
@@ -46,12 +47,9 @@ public:
                 switch (choise3)
                     {
                     case 1:
+                        Model_base::Search();
                         break;
                     case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
                         break;
                     default:
                         break;
