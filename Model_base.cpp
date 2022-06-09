@@ -25,8 +25,7 @@ void Model_base::Add()
     //формируем индекс времени для удобства поиска и сортировки по времени
     new_deal.time_id = new_deal.time.minutes * 525600 + new_deal.time.hour * 8760 + new_deal.date.day * 365 + new_deal.date.month * 12 + new_deal.date.year;
 
-    char* week = Model::zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // вычисляем день недели
-    strcpy(new_deal.week, week);
+    new_deal.week = new_deal.zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // вычисляем день недели
     new_deal.id = base.size();
     base.push_back(new_deal);
 
