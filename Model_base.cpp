@@ -39,12 +39,9 @@ void Model_base::Show_all() // показать все - функция для отладки
     }
 }
 
-void Model_base::Edit()
+void Model_base::Edit(string search)
 {
   // здесь не будем испольщовать функции Search, а напишем немного модернизированную
-    string search;
-    cout << "Введите ID дела, либо строку с описанием или именем (будет найдено первое дело с ключевыми словами) \n";
-    cin >> search;
     Model* new_deal = Search_for_edit(search); // нашли указатель на нужное дело
     
     // теперь всё перезаписываеем
@@ -72,6 +69,7 @@ void Model_base::Edit()
     new_deal->time_id = new_deal->time.minutes * 525600 + new_deal->time.hour * 8760 + new_deal->date.day * 365 + new_deal->date.month * 12 + new_deal->date.year;
     new_deal->week = new_deal->zellersAlgorithm(new_deal->date.day, new_deal->date.month, new_deal->date.year); // вычисляем день недели
 }
+
 Model* Model_base::Search_for_edit(string search) 
 {
     if (search.find_first_of("1234567890")) //  если вводятся цифры, то ищем по ID дела
@@ -91,13 +89,15 @@ Model* Model_base::Search_for_edit(string search)
                 return &a;
             }
         }
-        return;
     }
     cout << "Ничего не нашлось...\n";
 }
 
-Model Model_base::Search(string search) // поиск дел
+Model Model_base::Search() // поиск дел 
 {
+    cout << "Введите ID дела либо название, либо описание\n";
+    string search;
+    cin >> search;
     if (search.find_first_of("1234567890")) //  если вводятся цифры, то ищем по ID дела
     {
          for (Model a:base)
@@ -114,9 +114,12 @@ Model Model_base::Search(string search) // поиск дел
                 a.Show();
             }
         }
-        return;
     }
     cout << "Ничего не нашлось...\n";
+}
+
+void Model_base::Search_date()// поиск по дате
+{
 }
 
 void Model_base::Write_deals()

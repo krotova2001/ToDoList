@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
+
 class Controller
 {
 public:
@@ -12,7 +13,7 @@ public:
     {
         //здесь мы создаем систему ввода ответов при работе с многоуровневым меню, и само многоуровневое меню
         int choise, choise1, choise2, choise3, choise4; // заранее создадим возможные переменные дл€ ввода 
-        string search; // строка дл€ поиска
+        string s; // строка дл€ поиска
         do {
             View::Show_menu(); //основное меню
             cin >> choise; // берем выбор
@@ -38,8 +39,8 @@ public:
                 break;
             case 2:
                 View::Show_menu_2(); // –едактирование
-                cin >> search;
-                Model_base::Edit(search);
+                cin >> s;
+                Model_base::Edit(s);
                 break;
             case 3:
                 View::Show_menu_3(); // ѕоиск дела
@@ -50,6 +51,7 @@ public:
                         Model_base::Search();
                         break;
                     case 2:
+                        Model_base::Search_date();
                         break;
                     default:
                         break;
