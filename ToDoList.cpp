@@ -1,5 +1,4 @@
-﻿#include "View.h"
-#include "Controller.h"
+﻿#include "Controller.h"
 #include "Model_base.h"
 int main()
 {

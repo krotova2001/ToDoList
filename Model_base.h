@@ -2,13 +2,14 @@
 #pragma once
 #include "Model.h"
 #include "Controller.h"
+#include "View.h"
 #include <vector>
 #include <string>
 using namespace std;
 
 class Model_base
 {
-	static vector<Model> base ; // сам массив дел
+	static vector<Model> base; // сам массив дел
 public:
 	Model Add(); // добавление дел
 	static void Edit(string search); // редактирование дела
