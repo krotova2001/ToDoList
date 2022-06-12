@@ -20,6 +20,7 @@ void View::Show_menu_1()
 {
 	system("cls");
 	cout << "\x1B[31m***********************ПРОСМОТР***********************\033[0m\t\t\n\n";
+	
 	cout << "\t\t" << setw(25) << setfill('-') << left << "На сегодня " << right << " 1\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "На неделю " << right << " 2\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "На месяц " << right << " 3\n";
@@ -31,9 +32,19 @@ void View::Show_menu_2()
 {
 	system("cls");
 	cout << "\x1B[31m***********************РЕДАКТИРОВАНИЕ***********************\033[0m\t\t\n\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "Новое дело " << right << " 1\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "Редактирование существующего дела " << right << " 2\n";
+	cout << "\t\t" << setw(25) << setfill('-') << left << "Назад " << right << " 0\n\n";
+}
+
+void View::Show_menu_22()
+{
+	system("cls");
+	cout << "\x1B[31m***********************РЕДАКТИРОВАНИЕ***********************\033[0m\t\t\n\n";
 	cout << "Введите ID дела либо название, либо описание\n";
 	cout << "Либо введите 0 для выхода в меню\n";
 }
+
 
 void View::Show_menu_3()
 {
@@ -71,3 +82,18 @@ void View::Show_about()
 	cout << "Программа разработана в рамках учебного процесса в Академии TOP\n";
 	cout << "Иполнитель - Кротов Георгий, преподаватель - Давлетшин Роман (г. Красноярск, июнь 2022 г)\n";
 }
+
+void View::Show_delo(Model A)
+{
+	cout << "\n";
+	cout << "Порядковый номер - " << A.id << "\n";
+	cout << "Название - " << A.name << "\n";
+	cout << "Приоритет - " << A.pri << "\n";
+	cout << "Описание - " << A.information << "\n";
+	cout << "Срок - " << A.date.day << "/" << A.date.month << "/" << A.date.year << "\n";
+	cout << "День недели - " << A.week << "\n";
+	cout << "Время - " << A.time.hour << ":" << A.time.hour << "\n";
+	cout << "-------------------------------------\n";
+}
+
+

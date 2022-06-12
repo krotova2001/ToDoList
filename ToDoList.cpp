@@ -5,9 +5,10 @@ int main()
     setlocale(LC_ALL, "Russian");
     Controller A;
     Model_base B;
-    B.Add();
-    B.Add();
-    B.Show_all();
-    B.Write_deals();
+    A.Menu();
+    //B.Add();
+    //B.Add();
+    //B.Show_all();
+    //B.Write_deals();
    
 }

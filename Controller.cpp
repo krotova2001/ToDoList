@@ -4,7 +4,7 @@ void Controller::Menu()
 {
     {
         //здесь мы создаем систему ввода ответов при работе с многоуровневым меню, и само многоуровневое меню
-        int choise, choise1, choise2, choise3, choise4; // заранее создадим возможные переменные для ввода 
+        int choise, choise1, choise2, choise3, choise4, choise5; // заранее создадим возможные переменные для ввода 
         string s; // строка для поиска
         do {
             View::Show_menu(); //основное меню
@@ -16,13 +16,14 @@ void Controller::Menu()
                 cin >> choise1;
                 switch (choise1)
                 {
-                case 1:
+                case 1: // сегодня
                     break;
-                case 2:
+                case 2: // неделя
                     break;
-                case 3:
+                case 3: // месяц
                     break;
-                case 4:
+                case 4: // все дела
+                    Model_base::Show_all();
                     break;
                 default:
 
@@ -31,8 +32,21 @@ void Controller::Menu()
                 break;
             case 2:
                 View::Show_menu_2(); // Редактирование
-                cin >> s;
-                Model_base::Edit(s);
+                cin >> choise5;
+                switch (choise5)
+                {
+                case 1:
+                    Model_base::Add();
+                    break;
+                case 2:
+                    View::Show_menu_22();
+                    cin >> s;
+                    if (s == "0")
+                        break;
+                    Model_base::Edit(s);
+                default:
+                    break;
+                }
                 break;
             case 3:
                 View::Show_menu_3(); // Поиск дела

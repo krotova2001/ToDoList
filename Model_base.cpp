@@ -1,158 +1,159 @@
 #include "Model_base.h"
-vector<Model> Model_base::base; // прописываем еще раз статический массив с делами
+vector<Model> Model_base::base; //
 Model Model_base::Add()
 {
-    Model new_deal; //ñîçäàäèì è çàïîëíèì íîâîå äåëî
-    cout << "Âàæíîñòü äåëà (1-5)\n";
+    Model new_deal; //создадим и заполним новое дело
+    cout << "Priority (1-5)\n";
     scanf("%1d", &new_deal.pri);
-    cout << "Íàçâàíèå äåëà\n";
-    cin>>new_deal.name;
-    cout << "Îïèñàíèå\n";
-    cin.get(); // ÷òîáû ôóíêöèÿ cin.getline îòðàáàòûâàëà íîðìàëüíî, íóæíî ïåðåä íåé âûáðîñèòü \n èç ïîòîêà, òàê êàê cin>> åå òàì îñòàâëÿåò
+    cout << "Name\n";
+    cin >> new_deal.name;
+    cout << "Informaion\n";
+    cin.get(); // чтобы функция cin.getline отрабатывала нормально, нужно перед ней выбросить \n из потока, так как cin>> ее там оставляет
     getline(cin, new_deal.information);
-    cout << "Äàòà:\n";
-    cout << "  äåíü\n";
+    cout << "Date:\n";
+    cout << "  day\n";
     scanf("%2d", &new_deal.date.day);
-    cout << " ìåñÿö\n";
+    cout << " month\n";
     scanf("%2d", &new_deal.date.month);
-    cout << "  ãîä\n";
+    cout << "  year\n";
     scanf("%4d", &new_deal.date.year);
-    cout << "Âðåìÿ èñïîëíåíèÿ\n";
-    cout << "  ÷àñû\n";
+    cout << "Time\n";
+    cout << "  hour\n";
     scanf("%2d", &new_deal.time.hour);
-    cout << "  ìèíóòû\n";
+    cout << "  minutes\n";
     scanf("%2d", &new_deal.time.minutes);
-    //ôîðìèðóåì èíäåêñ âðåìåíè äëÿ óäîáñòâà ïîèñêà è ñîðòèðîâêè ïî âðåìåíè
-   
+    //формируем индекс времени для удобства поиска и сортировки по времени
+
     new_deal.time_id = new_deal.time.minutes * 525600 + new_deal.time.hour * 8760 + new_deal.date.day * 365 + new_deal.date.month * 12 + new_deal.date.year;
-    new_deal.week = new_deal.zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // âû÷èñëÿåì äåíü íåäåëè
+    new_deal.week = new_deal.zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // вычисляем день недели
     new_deal.id = base.size();
     base.push_back(new_deal);
     return new_deal;
 }
 
-void Model_base::Show_all() // ïîêàçàòü âñå - ôóíêöèÿ äëÿ îòëàäêè
+void Model_base::Show_all() // показать все - функция для отладки
 {
     for (Model a : base)
     {
-        a.Show();
+        View::Show_delo(a);
     }
+    system("pause");
 }
 
 void Model_base::Edit(string search)
 {
-  // çäåñü íå áóäåì èñïîëüùîâàòü ôóíêöèè Search, à íàïèøåì íåìíîãî ìîäåðíèçèðîâàííóþ
-    Model* new_deal = Search_for_edit(search); // íàøëè óêàçàòåëü íà íóæíîå äåëî
+    // здесь не будем испольщовать функции Search, а напишем немного модернизированную
+    Model* new_deal = Search_for_edit(search); // нашли указатель на нужное дело
     
-    // òåïåðü âñ¸ ïåðåçàïèñûâàååì
-    cout << "Âàæíîñòü äåëà (1-5)\n";
+    // теперь всё перезаписываеем
+    cout << "Priority (1-5)\n";
     scanf("%1d", new_deal->pri);
-    cout << "Íàçâàíèå äåëà\n";
+    cout << "Name\n";
     cin >> new_deal->name;
-    cout << "Îïèñàíèå\n";
-    cin.get(); // ÷òîáû ôóíêöèÿ cin.getline îòðàáàòûâàëà íîðìàëüíî, íóæíî ïåðåä íåé âûáðîñèòü \n èç ïîòîêà, òàê êàê cin>> åå òàì îñòàâëÿåò
+    cout << "Information\n";
+    cin.get(); // чтобы функция cin.getline отрабатывала нормально, нужно перед ней выбросить \n из потока, так как cin>> ее там оставляет
     getline(cin, new_deal->information);
-    cout << "Äàòà:\n";
-    cout << "  äåíü\n";
+    cout << "Data:\n";
+    cout << "  day\n";
     scanf("%2d", new_deal->date.day);
-    cout << " ìåñÿö\n";
+    cout << " month\n";
     scanf("%2d", new_deal->date.month);
-    cout << "  ãîä\n";
+    cout << "  год\n";
     scanf("%4d", new_deal->date.year);
-    cout << "Âðåìÿ èñïîëíåíèÿ\n";
-    cout << "  ÷àñû\n";
+    cout << "Time\n";
+    cout << "  hour\n";
     scanf("%2d", new_deal->time.hour);
-    cout << "  ìèíóòû\n";
+    cout << "  minute\n";
     scanf("%2d", new_deal->time.minutes);
-    //ôîðìèðóåì èíäåêñ âðåìåíè äëÿ óäîáñòâà ïîèñêà è ñîðòèðîâêè ïî âðåìåíè
+    //формируем индекс времени для удобства поиска и сортировки по времени
 
     new_deal->time_id = new_deal->time.minutes * 525600 + new_deal->time.hour * 8760 + new_deal->date.day * 365 + new_deal->date.month * 12 + new_deal->date.year;
-    new_deal->week = new_deal->zellersAlgorithm(new_deal->date.day, new_deal->date.month, new_deal->date.year); // âû÷èñëÿåì äåíü íåäåëè
+    new_deal->week = new_deal->zellersAlgorithm(new_deal->date.day, new_deal->date.month, new_deal->date.year); // вычисляем день недели
 }
 
-Model* Model_base::Search_for_edit(string search) 
+Model* Model_base::Search_for_edit(string search)
 {
-    if (search.find_first_of("1234567890")) //  åñëè ââîäÿòñÿ öèôðû, òî èùåì ïî ID äåëà
+    if (search.find_first_of("1234567890")) //  если вводятся цифры, то ищем по ID дела
     {
         for (Model a : base)
         {
             return &base[stoi(search)];
         }
     }
-    else // ëèáî ïî ñòðîêå - îïèñàíèþ èëè èìåíè
+    else // либо по строке - описанию или имени
     {
         for (Model a : base)
         {
-            if (a.name.find(search) || a.information.find(search)) // åñëè â îïèñàíèè èëè èìåíè äåëà åñòü âõîæäåíèå ñòðîêè ïîèñêà
+            if (a.name.find(search) || a.information.find(search)) // если в описании или имени дела есть вхождение строки поиска
             {
-                a.Show();
+                View::Show_delo(a);
                 return &a;
             }
         }
     }
-    cout << "Íè÷åãî íå íàøëîñü...\n";
+    cout << "Ничего не нашлось...\n";
 }
 
-Model Model_base::Search() // ïîèñê äåë 
+Model Model_base::Search() // поиск дел 
 {
-    cout << "Ââåäèòå ID äåëà ëèáî íàçâàíèå, ëèáî îïèñàíèå\n";
+    cout << "Введите ID дела либо название, либо описание\n";
     string search;
     cin >> search;
-    if (search.find_first_of("1234567890")) //  åñëè ââîäÿòñÿ öèôðû, òî èùåì ïî ID äåëà
+    if (search.find_first_of("1234567890")) //  если вводятся цифры, то ищем по ID дела
     {
-         for (Model a:base)
-            {
+        for (Model a : base)
+        {
             return base[stoi(search)];
-            }
+        }
     }
     else
     {
         for (Model a : base)
         {
-            if (a.name.find(search) || a.information.find(search)) // åñëè â îïèñàíèè èëè èìåíè äåëà åñòü âõîæäåíèå ñòðîêè ïîèñêà
+            if (a.name.find(search) || a.information.find(search)) // если в описании или имени дела есть вхождение строки поиска
             {
-                a.Show();
+                View::Show_delo(a);
             }
         }
     }
-    cout << "Íè÷åãî íå íàøëîñü...\n";
+    cout << "Ничего не нашлось...\n";
 }
 
-void Model_base::Search_date()// ïîèñê ïî äàòå
+void Model_base::Search_date()// поиск по дате
 {
 }
 
 void Model_base::Write_deals()
 {
     FILE* file = nullptr;
-    fopen_s(&file, "results.bin", "wb"); // îòêðûòü äëÿ çàïèñè â áèíàðíîì ðåæèìå
+    fopen_s(&file, "results.bin", "wb"); // открыть для записи в бинарном режиме
 
-    if (file != nullptr) // ïðîâåðêà îòêðûëñÿ ëè ôàéë
+    if (file != nullptr) // проверка открылся ли файл
     {
-        fwrite(&base, sizeof(Model), base.size(), file); //çàïèñûâàåì öåëèêîì âñå ñòðóêòóðû çà ðàç
-        cout << "Áàçà äàííûõ ñîõðàíåíà\n";
-        fclose(file); // çàêðûâàåì ôàéë
+        fwrite(&base, sizeof(Model), base.size(), file); //записываем целиком все структуры за раз
+        cout << "База данных сохранена\n";
+        fclose(file); // закрываем файл
     }
-    else { cout << "\nÍå ìîãó çàïèñàòü áàçó äàííûõ äåë\n"; }
+    else { cout << "\nНе могу записать базу данных дел\n"; }
 }
 
-void Model_base::Load_deal() // ôóíêöèÿ çàãðóçêè ôàéëà âñåõ ñòðóêòóð (áàçû äàííûõ)
+void Model_base::Load_deal() // функция загрузки файла всех структур (базы данных)
 {
 
     FILE* pfile = nullptr;
-    fopen_s(&pfile, "results.bin", "rb"); // îòêðûâàåì ôàéë ñî ñòðóêòóðàìè
+    fopen_s(&pfile, "results.bin", "rb"); // открываем файл со структурами
     if (pfile != nullptr)
     {
-        Model ni; // ñîçäàåì íîâîå ïóñòîå äåëî
+        Model ni; // создаем новое пустое дело
         while (fread(&ni, sizeof(Model), 1, pfile) > 0)
         {
-            base.push_back(ni); // çàïèñûâàåì íîâîå äåëî ê îáùåìó ìàññèâó â ïàìÿòè
+            base.push_back(ni); // записываем новое дело к общему массиву в памяти
         }
-        cout << base.size() << " äåë çàãðóæåíî\n";
+        cout << base.size() << " дел загружено\n";
         fclose(pfile);
     }
     else
     {
-        cout << "Íå ìîãó çàãðóçèòü äåëà\n\n";
+        cout << "Не могу загрузить дела\n\n";
     }
 }
