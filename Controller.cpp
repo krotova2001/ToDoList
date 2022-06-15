@@ -26,7 +26,6 @@ void Controller::Menu()
                     Model_base::Show_all();
                     break;
                 default:
-
                     break;
                 }
                 break;
@@ -36,10 +35,10 @@ void Controller::Menu()
                 switch (choise5)
                 {
                 case 1:
-                    Model_base::Add();
+                    Model_base::Add(); // добавление нового дела
                     break;
                 case 2:
-                    View::Show_menu_22();
+                    View::Show_menu_22(); // редактирование существующего дела
                     cin >> s;
                     if (s == "0")
                         break;
@@ -55,16 +54,18 @@ void Controller::Menu()
                 {
                 case 1:
                     Model_base::Search();
+                    system("pause");
                     break;
                 case 2:
                     Model_base::Search_date();
+                    system("pause");
                     break;
                 default:
                     break;
                 }
                 break;
             case 4:
-                View::Show_manual(); // ѕоказать справка
+                View::Show_manual(); // ѕоказать справку
                 system("pause");
                 break;
             case 5:

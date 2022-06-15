@@ -9,6 +9,5 @@ class Controller
 {
 public:
     void Menu(); // обработка ввода меню
-    
 };
 

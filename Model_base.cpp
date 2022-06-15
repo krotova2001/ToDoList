@@ -1,6 +1,6 @@
 #include "Model_base.h"
-vector<Model> Model_base::base; //
-Model Model_base::Add()
+vector<Model> Model_base::base; // создаем единственный экземпляр базы данных модели внутри класса
+Model Model_base::Add() // добавление дела
 {
     Model new_deal; //создадим и заполним новое дело
     cout << "Priority (1-5)\n";
@@ -26,7 +26,7 @@ Model Model_base::Add()
 
     new_deal.time_id = new_deal.time.minutes * 525600 + new_deal.time.hour * 8760 + new_deal.date.day * 365 + new_deal.date.month * 12 + new_deal.date.year;
     new_deal.week = new_deal.zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // вычисляем день недели
-    new_deal.id = base.size();
+    new_deal.id = base.size()+1;
     base.push_back(new_deal);
     return new_deal;
 }
@@ -42,38 +42,41 @@ void Model_base::Show_all() // показать все - функция для �
 
 void Model_base::Edit(string search)
 {
-    // здесь не будем испольщовать функции Search, а напишем немного модернизированную
-    Model* new_deal = Search_for_edit(search); // нашли указатель на нужное дело
-    
+    // здесь не будем использовать функции Search, а напишем немного модернизированную
+    Model* old_deal = Search_for_edit(search); // нашли указатель на нужное старое дело
+
+    Model new_deal;
     // теперь всё перезаписываеем
     cout << "Priority (1-5)\n";
-    scanf("%1d", new_deal->pri);
+    scanf("%1d", &new_deal.pri);
     cout << "Name\n";
-    cin >> new_deal->name;
+    cin >> new_deal.name;
     cout << "Information\n";
     cin.get(); // чтобы функция cin.getline отрабатывала нормально, нужно перед ней выбросить \n из потока, так как cin>> ее там оставляет
-    getline(cin, new_deal->information);
+    getline(cin, new_deal.information);
     cout << "Data:\n";
     cout << "  day\n";
-    scanf("%2d", new_deal->date.day);
+    scanf("%2d", &new_deal.date.day);
     cout << " month\n";
-    scanf("%2d", new_deal->date.month);
+    scanf("%2d", &new_deal.date.month);
     cout << "  год\n";
-    scanf("%4d", new_deal->date.year);
+    scanf("%4d", &new_deal.date.year);
     cout << "Time\n";
     cout << "  hour\n";
-    scanf("%2d", new_deal->time.hour);
+    scanf("%2d", &new_deal.time.hour);
     cout << "  minute\n";
-    scanf("%2d", new_deal->time.minutes);
+    scanf("%2d", &new_deal.time.minutes);
     //формируем индекс времени для удобства поиска и сортировки по времени
 
-    new_deal->time_id = new_deal->time.minutes * 525600 + new_deal->time.hour * 8760 + new_deal->date.day * 365 + new_deal->date.month * 12 + new_deal->date.year;
-    new_deal->week = new_deal->zellersAlgorithm(new_deal->date.day, new_deal->date.month, new_deal->date.year); // вычисляем день недели
+    new_deal.time_id = new_deal.time.minutes * 525600 + new_deal.time.hour * 8760 + new_deal.date.day * 365 + new_deal.date.month * 12 + new_deal.date.year;
+    new_deal.week = new_deal.zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // вычисляем день недели
+    
+    old_deal = &new_deal;
 }
 
 Model* Model_base::Search_for_edit(string search)
 {
-    if (search.find_first_of("1234567890")) //  если вводятся цифры, то ищем по ID дела
+    if (search.find_first_of("1234567890",0, 2)!=-1) //  если вводятся цифры, то ищем по ID дела
     {
         for (Model a : base)
         {
@@ -99,7 +102,7 @@ Model Model_base::Search() // поиск дел
     cout << "Введите ID дела либо название, либо описание\n";
     string search;
     cin >> search;
-    if (search.find_first_of("1234567890")) //  если вводятся цифры, то ищем по ID дела
+    if (search.find_first_of("1234567890", 0, 2) != -1) //  если вводятся цифры, то ищем по ID дела
     {
         for (Model a : base)
         {
@@ -113,11 +116,14 @@ Model Model_base::Search() // поиск дел
             if (a.name.find(search) || a.information.find(search)) // если в описании или имени дела есть вхождение строки поиска
             {
                 View::Show_delo(a);
+                return a;
             }
         }
     }
     cout << "Ничего не нашлось...\n";
 }
+
+
 
 void Model_base::Search_date()// поиск по дате
 {
