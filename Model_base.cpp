@@ -40,10 +40,11 @@ void Model_base::Show_all() // показать все - функция для �
     system("pause");
 }
 
+
 void Model_base::Edit(string search)
 {
     // здесь не будем использовать функции Search, а напишем немного модернизированную
-    Model* old_deal = Search_for_edit(search); // нашли указатель на нужное старое дело
+    Model* old_deal = Search(search); // нашли указатель на нужное старое дело
 
     Model new_deal;
     // теперь всё перезаписываеем
@@ -70,22 +71,22 @@ void Model_base::Edit(string search)
 
     new_deal.time_id = new_deal.time.minutes * 525600 + new_deal.time.hour * 8760 + new_deal.date.day * 365 + new_deal.date.month * 12 + new_deal.date.year;
     new_deal.week = new_deal.zellersAlgorithm(new_deal.date.day, new_deal.date.month, new_deal.date.year); // вычисляем день недели
-    
-    old_deal = &new_deal;
+    new_deal.id = old_deal->id;
+    *old_deal = new_deal;
 }
-
+/*
 Model* Model_base::Search_for_edit(string search)
 {
     if (search.find_first_of("1234567890",0, 2)!=-1) //  если вводятся цифры, то ищем по ID дела
     {
-        for (Model a : base)
+        for (Model& a : base)
         {
             return &base[stoi(search)];
         }
     }
     else // либо по строке - описанию или имени
     {
-        for (Model a : base)
+        for (Model& a : base)
         {
             if (a.name.find(search) || a.information.find(search)) // если в описании или имени дела есть вхождение строки поиска
             {
@@ -95,38 +96,40 @@ Model* Model_base::Search_for_edit(string search)
         }
     }
     cout << "Ничего не нашлось...\n";
+    return nullptr;
 }
-
-Model Model_base::Search() // поиск дел 
+*/
+Model* Model_base::Search(string search) // поиск дел
 {
-    cout << "Введите ID дела либо название, либо описание\n";
-    string search;
-    cin >> search;
     if (search.find_first_of("1234567890", 0, 2) != -1) //  если вводятся цифры, то ищем по ID дела
     {
-        for (Model a : base)
+        int s = stoi(search);
+        if (s>base.size()||s<=0)
         {
-            return base[stoi(search)];
+            cout << "ID is Out of range\n";
+            return nullptr;
         }
+        View::Show_delo(base[s-1]);
+        return &base[s - 1];
     }
     else
     {
-        for (Model a : base)
+        for (Model& a : base)
         {
-            if (a.name.find(search) || a.information.find(search)) // если в описании или имени дела есть вхождение строки поиска
+            if (a.name.find(search)!=std::string::npos || a.information.find(search) != std::string::npos) // если в описании или имени дела есть вхождение строки поиска
             {
                 View::Show_delo(a);
-                return a;
+                return &a;
             }
         }
     }
     cout << "Ничего не нашлось...\n";
+    return nullptr;
 }
-
-
 
 void Model_base::Search_date()// поиск по дате
 {
+   
 }
 
 void Model_base::Write_deals()
@@ -162,4 +165,27 @@ void Model_base::Load_deal() // функция загрузки файла вс�
     {
         cout << "Не могу загрузить дела\n\n";
     }
+}
+
+void Model_base::Delete()
+{
+    string search;
+    cout << "Введите ID дела либо название, либо описание\n";
+    cin >> search;
+    Model* old_deal = Search(search); // нашли указатель на нужное старое дело
+    vector <Model>::iterator it = base.begin();
+    for (;it<base.end();it++)
+    {
+        if ((*it).id == old_deal->id)
+        {
+            break;
+        }
+        cout << "Iterator error\n";
+    }
+    if (old_deal) // если дело существует...
+    {
+        cout << "Deleted\n";
+        base.erase(it);
+    }
+    system("pause");
 }

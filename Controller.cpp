@@ -43,6 +43,9 @@ void Controller::Menu()
                     if (s == "0")
                         break;
                     Model_base::Edit(s);
+                case 3:
+                    Model_base::Delete(); // добавление нового дела
+                    break;
                 default:
                     break;
                 }
@@ -53,7 +56,9 @@ void Controller::Menu()
                 switch (choise3)
                 {
                 case 1:
-                    Model_base::Search();
+                    cout << "Введите ID дела либо название, либо описание\n";
+                    cin >> s;
+                    Model_base::Search(s);
                     system("pause");
                     break;
                 case 2:
