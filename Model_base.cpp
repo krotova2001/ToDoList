@@ -74,31 +74,7 @@ void Model_base::Edit(string search)
     new_deal.id = old_deal->id;
     *old_deal = new_deal;
 }
-/*
-Model* Model_base::Search_for_edit(string search)
-{
-    if (search.find_first_of("1234567890",0, 2)!=-1) //  если вводятся цифры, то ищем по ID дела
-    {
-        for (Model& a : base)
-        {
-            return &base[stoi(search)];
-        }
-    }
-    else // либо по строке - описанию или имени
-    {
-        for (Model& a : base)
-        {
-            if (a.name.find(search) || a.information.find(search)) // если в описании или имени дела есть вхождение строки поиска
-            {
-                View::Show_delo(a);
-                return &a;
-            }
-        }
-    }
-    cout << "Ничего не нашлось...\n";
-    return nullptr;
-}
-*/
+
 Model* Model_base::Search(string search) // поиск дел
 {
     if (search.find_first_of("1234567890", 0, 2) != -1) //  если вводятся цифры, то ищем по ID дела
@@ -132,35 +108,93 @@ void Model_base::Search_date()// поиск по дате
    
 }
 
-void Model_base::Write_deals()
+void Model_base::Write_deals() //запись дел в файл
 {
-    FILE* file = nullptr;
-    fopen_s(&file, "results.bin", "wb"); // открыть для записи в бинарном режиме
-
-    if (file != nullptr) // проверка открылся ли файл
+    ofstream Result; // объект для вывода результатов
+    Result.open("base.txt", ios::out); // откроем файл на запись и запишем
+    if (Result.is_open())// проверка открылся ли файл
     {
-        fwrite(&base, sizeof(Model), base.size(), file); //записываем целиком все структуры за раз
+        
+        for (Model a:base)
+        {
+            Result << a.id<<"|";
+            Result << a.pri << "|";
+            Result << a.name << "|";
+            Result << a.information << "|";
+            Result << a.date.day << "|";
+            Result << a.date.month << "|";
+            Result << a.date.week_int << "|";
+            Result << a.date.year << "|";
+            Result << a.time.hour << "|";
+            Result << a.time.minutes << "|";
+            Result << a.week << "|";
+            Result << a.time_id << "|";
+            Result << "\n";
+        }
+        Result.close(); // закрываем файл
         cout << "База данных сохранена\n";
-        fclose(file); // закрываем файл
     }
     else { cout << "\nНе могу записать базу данных дел\n"; }
 }
 
 void Model_base::Load_deal() // функция загрузки файла всех структур (базы данных)
 {
-
-    FILE* pfile = nullptr;
-    fopen_s(&pfile, "results.bin", "rb"); // открываем файл со структурами
-    if (pfile != nullptr)
+    ifstream Source;
+    Source.open("base.txt");
+    if (Source.is_open())
     {
-        Model ni; // создаем новое пустое дело
-        while (fread(&ni, sizeof(Model), 1, pfile) > 0)
+        while (!Source.eof())// идем до конца файла
         {
-            base.push_back(ni); // записываем новое дело к общему массиву в памяти
+            Model a; //создадим и заполним новое дело
+            char idc[1024];
+            Source.getline(idc, sizeof(a.id), '|');
+            a.id = atoi(idc);
+            Source.getline(idc, sizeof(a.pri), '|');
+            switch (atoi(idc))
+                {
+                case 1:
+                    a.pri = Model::extrim;
+                    break;
+                case 2:
+                    a.pri = Model::imortant;
+                    break;
+                case 3:
+                    a.pri = Model::usual;
+                    break;
+                case 4:
+                    a.pri = Model::not_important;
+                    break;
+                case 5:
+                    a.pri = Model::pofig;
+                    break;
+                default:
+                    break;
+                }
+            Source.getline(idc, sizeof(a.name), '|');
+            a.name = idc;
+            Source.getline(idc, sizeof(a.information), '|');
+            a.information = idc;
+            Source.getline(idc, sizeof(a.date.day), '|');
+            a.date.day = atoi(idc);
+            Source.getline(idc, sizeof(a.date.month), '|');
+            a.date.month = atoi(idc);
+            Source.getline(idc, sizeof(a.date.week_int), '|');
+            a.date.week_int = atoi(idc);
+            Source.getline(idc, sizeof(a.date.year), '|');
+            a.date.year = atoi(idc);
+            Source.getline(idc, sizeof(a.time.hour), '|');
+            a.time.hour = atoi(idc);
+            Source.getline(idc, sizeof(a.time.minutes), '|');
+            a.time.minutes = atoi(idc);
+            Source.getline(idc, sizeof(a.week), '|');
+            a.week = idc;
+            Source.getline(idc, sizeof(a.time_id), '|');
+            a.time_id = atoi(idc);
+            base.push_back(a);
+            //Source.get();
         }
-        cout << base.size() << " дел загружено\n";
-        fclose(pfile);
     }
+    
     else
     {
         cout << "Не могу загрузить дела\n\n";

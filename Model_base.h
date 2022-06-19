@@ -5,6 +5,7 @@
 #include "View.h"
 #include <vector>
 #include <string>
+#include <fstream>
 using namespace std;
 
 class Model_base
@@ -13,13 +14,12 @@ class Model_base
 public:
 	static Model Add(); // добавление дел
 	static void Edit(string search); // редактирование дела
-	//static Model* Search_for_edit(string search); // поиск дела (одного для редактирования)
 	static Model* Search(string search); // поиск дела или нескольких дел для просмотра
 	static void Search_date(); // поиск дела по дате
 	static void Show_all(); // показать все - функция для отладки
 	static void Delete(); //удаление дела
-	void Write_deals(); // функция записи базы данных дел в файл
-	void Load_deal(); // функция загрузки файла всех структур (базы данных)
+	static void Write_deals(); // функция записи базы данных дел в файл
+	static void Load_deal(); // функция загрузки файла всех структур (базы данных)
 
 };
 

@@ -32,10 +32,10 @@ void View::Show_menu_2()
 {
 	system("cls");
 	cout << "\x1B[31m***********************РЕДАКТИРОВАНИЕ***********************\033[0m\t\t\n\n";
-	cout << "\t\t" << setw(30) << setfill('-') << left << "Новое дело " << right << " 1\n";
-	cout << "\t\t" << setw(30) << setfill('-') << left << "Редактирование существующего дела " << right << " 2\n";
-	cout << "\t\t" << setw(30) << setfill('-') << left << "Удаление дела " << right << " 3\n";
-	cout << "\t\t" << setw(30) << setfill('-') << left << "Назад " << right << " 0\n\n";
+	cout << "\t\t" << setw(35) << setfill('-') << left << "Новое дело " << right << " 1\n";
+	cout << "\t\t" << setw(35) << setfill('-') << left << "Редактирование существующего дела " << right << " 2\n";
+	cout << "\t\t" << setw(35) << setfill('-') << left << "Удаление дела " << right << " 3\n";
+	cout << "\t\t" << setw(35) << setfill('-') << left << "Назад " << right << " 0\n\n";
 }
 
 void View::Show_menu_22()
@@ -45,7 +45,6 @@ void View::Show_menu_22()
 	cout << "Введите ID дела либо название, либо описание\n";
 	cout << "Либо введите 0 для выхода в меню\n";
 }
-
 
 void View::Show_menu_3()
 {
