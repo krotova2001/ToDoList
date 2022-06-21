@@ -110,31 +110,33 @@ void Model_base::Search_date()// поиск по дате
 
 void Model_base::Write_deals() //запись дел в файл
 {
-    ofstream Result; // объект для вывода результатов
-    Result.open("base.txt", ios::out); // откроем файл на запись и запишем
-    if (Result.is_open())// проверка открылся ли файл
+    if (base.size() > 0) // если есть что записывать
     {
-        
-        for (Model a:base)
+        ofstream Result; // объект для вывода результатов
+        Result.open("base.txt", ios::out); // откроем файл на запись и запишем
+        if (Result.is_open())// проверка открылся ли файл
         {
-            Result << a.id<<"|";
-            Result << a.pri << "|";
-            Result << a.name << "|";
-            Result << a.information << "|";
-            Result << a.date.day << "|";
-            Result << a.date.month << "|";
-            Result << a.date.week_int << "|";
-            Result << a.date.year << "|";
-            Result << a.time.hour << "|";
-            Result << a.time.minutes << "|";
-            Result << a.week << "|";
-            Result << a.time_id << "|";
-            Result << "\n";
+            for (Model a : base)
+            {
+                Result << a.id << "|";
+                Result << a.pri << "|";
+                Result << a.name << "|";
+                Result << a.information << "|";
+                Result << a.date.day << "|";
+                Result << a.date.month << "|";
+                Result << a.date.week_int << "|";
+                Result << a.date.year << "|";
+                Result << a.time.hour << "|";
+                Result << a.time.minutes << "|";
+                Result << a.week << "|";
+                Result << a.time_id << "|";
+                Result << "\n";
+            }
+            Result.close(); // закрываем файл
+            cout << "База данных сохранена\n";
         }
-        Result.close(); // закрываем файл
-        cout << "База данных сохранена\n";
+        else { cout << "\nНе могу записать базу данных дел\n"; }
     }
-    else { cout << "\nНе могу записать базу данных дел\n"; }
 }
 
 void Model_base::Load_deal() // функция загрузки файла всех структур (базы данных)
@@ -146,7 +148,7 @@ void Model_base::Load_deal() // функция загрузки файла вс�
         while (!Source.eof())// идем до конца файла
         {
             Model a; //создадим и заполним новое дело
-            char idc[1024];
+            char idc[1024]; // буфер считывания
             Source.getline(idc, sizeof(a.id), '|');
             a.id = atoi(idc);
             Source.getline(idc, sizeof(a.pri), '|');
@@ -191,13 +193,15 @@ void Model_base::Load_deal() // функция загрузки файла вс�
             Source.getline(idc, sizeof(a.time_id), '|');
             a.time_id = atoi(idc);
             base.push_back(a);
-            //Source.get();
+            //Source.getline(idc, 1);
         }
+         Source.close();
+         cout << "Base loaded";
     }
     
     else
     {
-        cout << "Не могу загрузить дела\n\n";
+        cout << "Loading error\n\n";
     }
 }
 
