@@ -133,26 +133,17 @@ void Model_base::Write_deals() //запись дел в файл
                 Result << "\n";
             }
             Result.close(); // закрываем файл
-            cout << "База данных сохранена\n";
+            cout << "Saved\n";
         }
-        else { cout << "\nНе могу записать базу данных дел\n"; }
+        else { cout << "\nSaving error\n"; }
     }
 }
 
-void Model_base::Load_deal() // функция загрузки файла всех структур (базы данных)
+void Model_base::Load_base(vector<string> &s) // функция загрузки файла всех структур (базы данных)
 {
-    ifstream Source;
-    Source.open("base.txt");
-    if (Source.is_open())
-    {
-        while (!Source.eof())// идем до конца файла
-        {
             Model a; //создадим и заполним новое дело
-            char idc[1024]; // буфер считывания
-            Source.getline(idc, sizeof(a.id), '|');
-            a.id = atoi(idc);
-            Source.getline(idc, sizeof(a.pri), '|');
-            switch (atoi(idc))
+            a.id = atoi(s[0].c_str());
+            switch (atoi(s[1].c_str()))
                 {
                 case 1:
                     a.pri = Model::extrim;
@@ -172,33 +163,47 @@ void Model_base::Load_deal() // функция загрузки файла вс�
                 default:
                     break;
                 }
-            Source.getline(idc, sizeof(a.name), '|');
-            a.name = idc;
-            Source.getline(idc, sizeof(a.information), '|');
-            a.information = idc;
-            Source.getline(idc, sizeof(a.date.day), '|');
-            a.date.day = atoi(idc);
-            Source.getline(idc, sizeof(a.date.month), '|');
-            a.date.month = atoi(idc);
-            Source.getline(idc, sizeof(a.date.week_int), '|');
-            a.date.week_int = atoi(idc);
-            Source.getline(idc, sizeof(a.date.year), '|');
-            a.date.year = atoi(idc);
-            Source.getline(idc, sizeof(a.time.hour), '|');
-            a.time.hour = atoi(idc);
-            Source.getline(idc, sizeof(a.time.minutes), '|');
-            a.time.minutes = atoi(idc);
-            Source.getline(idc, sizeof(a.week), '|');
-            a.week = idc;
-            Source.getline(idc, sizeof(a.time_id), '|');
-            a.time_id = atoi(idc);
+            a.name = s[2];
+            a.information = s[3];
+            a.date.day = atoi(s[4].c_str());
+            a.date.month = atoi(s[5].c_str());
+            a.date.week_int = atoi(s[6].c_str());
+            a.date.year = atoi(s[7].c_str());
+            a.time.hour = atoi(s[8].c_str());
+            a.time.minutes = atoi(s[9].c_str());
+            a.week = s[10];
+            a.time_id = atoi(s[11].c_str());
             base.push_back(a);
-            //Source.getline(idc, 1);
-        }
-         Source.close();
-         cout << "Base loaded";
+}
+
+vector<string>& Model_base::split(const string& s, char delim, vector<string>& elems)
+{
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        elems.push_back(item);
     }
-    
+    return elems;
+}
+
+void Model_base::Load_deal_new() // функция загрузки файла всех структур (базы данных)
+{
+    vector<string> Source_s;
+    ifstream Source;
+    Source.open("base.txt");
+    if (Source.is_open())
+    {
+        while (!Source.eof())// идем до конца файла
+        {
+            char sss[1024];
+            Source.getline(sss, 1024);
+            split(sss, '|', Source_s);
+            Load_base(Source_s);
+        }
+        Source.close();
+        cout << "Base loaded";
+    }
+
     else
     {
         cout << "Loading error\n\n";
