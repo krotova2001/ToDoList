@@ -197,8 +197,11 @@ void Model_base::Load_deal_new() // функция загрузки файла �
         {
             char sss[1024];
             Source.getline(sss, 1024);
-            split(sss, '|', Source_s);
-            Load_base(Source_s);
+            if(strlen(sss)>1)
+            {
+                split(sss, '|', Source_s);
+                Load_base(Source_s);
+            }
         }
         Source.close();
         cout << "Base loaded";
