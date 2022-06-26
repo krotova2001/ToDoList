@@ -17,10 +17,16 @@ void Controller::Menu()
                 switch (choise1)
                 {
                 case 1: // сегодня
+                    Model_base::Get_today();
+                    system("pause");
                     break;
                 case 2: // неделя
+                    Model_base::Get_week();
+                    system("pause");
                     break;
                 case 3: // месяц
+                    Model_base::Get_month();
+                    system("pause");
                     break;
                 case 4: // все дела
                     Model_base::Show_all();

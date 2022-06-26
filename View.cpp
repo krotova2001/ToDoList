@@ -7,6 +7,7 @@ using namespace std;
 void View::Show_menu() //главное меню
 {
 	system("cls"); // очистка экрана
+	Model_base::Time_now();
 	cout <<"\x1B[31m***********************СПИСОК ДЕЛ***********************\033[0m\t\t\n\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Просмотр " << right << " 1\n";
 	cout << "\t\t" << setw(25) << setfill('-') << left << "Редактирование " << right << " 2\n";

@@ -1,5 +1,6 @@
 #include "Model_base.h"
 vector<Model> Model_base::base; // создаем единственный экземпляр базы данных модели внутри класса
+
 Model Model_base::Add() // добавление дела
 {
     Model new_deal; //создадим и заполним новое дело
@@ -211,6 +212,70 @@ void Model_base::Load_deal_new() // функция загрузки файла �
     {
         cout << "Loading error\n\n";
     }
+}
+
+void Model_base::Get_today()
+{
+    time_t now = time(0);
+    tm* time_now = localtime(&now);
+
+    for (Model a : base)
+    {
+        if (a.date.day == time_now->tm_mday && a.date.month-1 == time_now->tm_mon && a.date.year-1900 == time_now->tm_year)
+            View::Show_delo(a);
+        else
+        {
+            cout << "\No delas today\n";
+        }
+    }
+    
+}
+
+void Model_base::Get_week()
+{
+    time_t now = time(0);
+    tm* time_now = localtime(&now);
+
+    //сначала ищем какого числа был понедельник на этой неделе
+    int monday; // здесь число, которое было в понедельник
+    if (time_now->tm_wday != 2) // если сегодня не понедельник (инедкс 2)
+    {
+        monday = time_now->tm_mday - time_now->tm_wday + 2; // назначаем понедельник
+    }
+    monday = time_now->tm_mday; // это если сегодня понедельник
+
+    for (Model a : base)
+    {
+        //если в этом году в этом месяце число дела находистя между числом воскресенья и понедельника - выводим
+        if (a.date.day <= monday + 7 && a.date.month == time_now->tm_mon+1 && a.date.year == time_now->tm_year+1900)
+            View::Show_delo(a);
+        else
+        {
+            cout << "\No delas today\n";
+        }
+    }
+}
+
+void Model_base::Get_month()
+{
+    time_t now = time(0);
+    tm* time_now = localtime(&now);
+    for (Model a : base)
+    {
+        if (a.date.month - 1 == time_now->tm_mon && a.date.year - 1900 == time_now->tm_year)
+            View::Show_delo(a);
+        else
+        {
+            cout << "\No delas today\n";
+        }
+    }
+}
+
+void Model_base::Time_now() // служебная поссмореть время
+{
+    time_t now = time(0);
+    tm* time_now = localtime(&now);
+    cout << time_now->tm_mday<<"/" << time_now->tm_mon+1 << "/" << time_now->tm_year+1900 << "/" <<"  "<<time_now->tm_hour << ":" << time_now->tm_min << "\n";
 }
 
 void Model_base::Delete()
